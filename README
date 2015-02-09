@@ -1,0 +1,7 @@
+OmniAuth Expresso V3 Strategy
+
+Creating a omniauth strategy to login using expressov3 user - 
+
+Using omniauth-identity as base: https://github.com/intridea/omniauth-identity
+
+https://github.com/intridea/omniauth/wiki/Strategy-Contribution-Guide
