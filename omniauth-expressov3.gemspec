@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'rspec', '~> 2.7'
 
     gem.name = 'omniauth-expressov3'
-    gem.version = OmniAuth::Expressov3::VERSION
+    gem.version = OmniAuth::ExpressoV3::VERSION
     gem.description = %q{Internal authentication handlers for OmniAuth.}
     gem.summary = gem.description
     gem.email = ['abner.silva@gmail.com']
