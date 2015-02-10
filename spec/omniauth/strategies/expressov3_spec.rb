@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'json'
 describe "OmniAuth::Strategies::ExpressoV3" do
 
   class ExpressoV3Provider < OmniAuth::Strategies::ExpressoV3; end
@@ -119,8 +120,12 @@ describe "OmniAuth::Strategies::ExpressoV3" do
     context 'success' do
       let(:auth_hash){ last_request.env['omniauth.auth'] }
 
-      let(:json_result) {
-        
+      let(:hash_result) {
+        json_path = File.expand_path(File.dirname(__FILE__) + '../../../result.json')
+        File.open(json_path) do |f|
+          json = f.read
+          return JSON.parse(json)
+        end
       }
 
       before(:each) do
@@ -138,8 +143,14 @@ describe "OmniAuth::Strategies::ExpressoV3" do
       end
 
       it 'should map user info to Auth Hash' do
+        @auth.stub(:get_user_data).and_return(hash_result)
         post('/auth/expressov3/callback', {:username => 'ping', :password => 'password'})
-        puts auth_hash
+        #puts auth_hash
+        #expect(auth_hash.account_id).to eq('11111111111')
+        #expect(auth_hash['email']).to_be eq('joao.ninguem@serpro.gov.br')
+        #expect(auth_hash['account_id']).to_be eq('11111111111')
+        #expect(auth_hash['account_id']).to_be eq('11111111111')
+        #expect(auth_hash['account_id']).to_be eq('11111111111')
         #auth_hash.uid.should == 'cn=ping, dc=intridea, dc=com'
         #auth_hash.info.email.should == 'ping@intridea.com'
         #auth_hash.info.first_name.should == 'Ping'

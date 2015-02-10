@@ -8,12 +8,15 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
       expect(auth_data).not_to be(nil)
       expect(auth_data['keys']).not_to be(nil)
       data = auth.get_user_data
+
+      puts data.inspect
+
       expect(data['currentAccount']).not_to be(nil)
       expect(data['userContact']).not_to be(nil)
 
-      File.open('spec/result.json', 'w+') do |f|
-        f.write auth.last_raw_data
-      end
+      # File.open('spec/result.json', 'w+') do |f|
+      #   f.write auth.last_raw_data
+      # end
       #data = auth.send('Tinebase.getRegistryData', nil)#, {'id' => '811540788f359c89384e616a58d8e75d46f160c6'})
       #puts data
     end
