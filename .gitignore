@@ -1,3 +1,5 @@
 coverage
 **/*.log
 *.log
+
+omniauth-expressov3-*.gem
