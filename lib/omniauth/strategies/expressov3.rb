@@ -13,10 +13,9 @@ module OmniAuth
        'name' => 'currentAccount::accountFullName',
        'first_name' => 'currentAccount::accountFirstName',
        'last_name' => 'currentAccount::accountLastName',
-       'email' => 'currentAccount::accountEmailAddress ',
+       'email' => 'currentAccount::accountEmailAddress',
        'telephone' => 'userContact::tel_work',
        'organization_unit' => 'userContact::org_unit',
-       'nick_name' => 'currentAccount::alias',
        'tine_key' => 'keys::tine_key',
        'json_key' => 'keys::json_key'
       }
@@ -82,11 +81,15 @@ module OmniAuth
             values_keys = value.split('::')
             value_key = values_keys[0]
             sub_value_key = values_keys[1]
-            if object && object.respond_to?(value_key) && object[value_key] && object[value_key].respond_to(sub_value_key)
+            #puts "KEY: #{value_key}"
+            #puts "SUBKEY: #{sub_value_key}"
+            if object && object.has_key?(value_key) && object[value_key] && object[value_key].has_key?(sub_value_key)
               user[key] = object[value_key][sub_value_key]
+            #  puts "HERE: #{key} => #{object[value_key][sub_value_key]}"
             else
               user[key] = nil
             end
+          #  puts '--------------------------------------------------'
 
           when Array
             value.each {|v| (user[key] = object[v.downcase.to_sym].first; break;) if object.respond_to? v.downcase.to_sym}
