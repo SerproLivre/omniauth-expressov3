@@ -18,19 +18,22 @@ module OmniAuth
       def authenticate(username, password)
         validate_arguments(username, password)
         auth_params = {"user" => username,"password" => password}
-        @json_tine.send 'Tinebase.login', '1', auth_params
+        @json_tine.send 'Tinebase.login', '1001', auth_params
         # check if user is authenticated,  raises an authentication if not
         validate_login(@json_tine.result)
         #return user data
         get_user_data
       end
 
+def send method, id, args=nil
+  @json_tine.send method, id, args
+end
 
       protected
 
       def get_user_data
         #request to get user data
-        @json_tine.send 'Tinebase.getAllRegistryData', '2'
+        @json_tine.send 'Tinebase.getAllRegistryData', '1002'
         #hash with user data
         { 'keys' => @json_tine.result['keys'],
           'currentAccount' => @json_tine.result['Tinebase']['currentAccount'],
