@@ -1,4 +1,4 @@
-# OmniAuth Twitter
+# OmniAuth ExpressoV3
 
 [![Gem Version](https://badge.fury.io/rb/omniauth-expressov3.svg)](http://badge.fury.io/rb/omniauth-expressov3)
 [![Circle CI](https://circleci.com/gh/abner/omniauth-expressov3/tree/master.svg?style=svg)](https://circleci.com/gh/abner/omniauth-expressov3/tree/master)
