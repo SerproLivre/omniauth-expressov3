@@ -1,8 +1,8 @@
 # OmniAuth Twitter
 
 [![Gem Version](https://badge.fury.io/rb/omniauth-twitter.svg)](http://badge.fury.io/rb/omniauth-twitter)
-[![CI Build Status](https://secure.travis-ci.org/arunagw/omniauth-twitter.svg?branch=master)](http://travis-ci.org/arunagw/omniauth-twitter)
-[![Code Climate](https://codeclimate.com/github/arunagw/omniauth-twitter.png)](https://codeclimate.com/github/arunagw/omniauth-twitter)
+[![CI Build Status](https://secure.travis-ci.org/abner/omniauth-expressov3.svg?branch=master)](http://travis-ci.org/abner/omniauth-expressov3)
+[![Code Climate](https://codeclimate.com/github/abner/omniauth-expressov3.png)](https://codeclimate.com/github/abner/omniauth-expressov3)
 
 This gem contains the Expresso strategy for OmniAuth.
 
