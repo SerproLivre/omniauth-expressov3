@@ -15,28 +15,35 @@ module OmniAuth
         @json_tine = JSONRPCTineConnection.new service_url, options['debug']
       end
 
+      def send(method_name, args={})
+        @json_tine.send(method_name, args)
+        @json_tine.result
+      end
+
       def authenticate(username, password)
         validate_arguments(username, password)
         auth_params = {"user" => username,"password" => password}
-        @json_tine.send 'Tinebase.login', '1', auth_params
+
+        @json_tine.send 'Tinebase.login', auth_params
         # check if user is authenticated,  raises an authentication if not
         validate_login(@json_tine.result)
         #return user data
-        get_user_data
+        @json_tine.result
       end
 
 
-      protected
+
 
       def get_user_data
         #request to get user data
-        @json_tine.send 'Tinebase.getAllRegistryData', '2'
+        puts @json_tine.send 'Tinebase.getAllRegistryData'
         #hash with user data
         { 'keys' => @json_tine.result['keys'],
           'currentAccount' => @json_tine.result['Tinebase']['currentAccount'],
           'userContact'    => @json_tine.result['Tinebase']['userContact']
         }
       end
+  protected
 
       def validate_arguments(username, password)
         if username.nil? or password.nil?
