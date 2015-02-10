@@ -7,9 +7,10 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    awesome_print (1.6.1)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    codeclimate-test-reporter (0.4.6)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -85,7 +86,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  awesome_print
+  codeclimate-test-reporter
   growl
   guard
   guard-bundler

@@ -42,7 +42,7 @@ module OmniAuth
       end
 
       def callback_phase
-        @auth_client = OmniAuth::ExpressoV3::AuthClient.new @options, true
+        @auth_client = OmniAuth::ExpressoV3::AuthClient.new @options
 
         return fail!(:missing_credentials) if missing_credentials?
         begin
