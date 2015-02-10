@@ -4,11 +4,11 @@ describe "OmniAuth::Strategies::ExpressoV3" do
   class ExpressoV3Provider < OmniAuth::Strategies::ExpressoV3; end
 
   let(:app) do
-    # Rack::Builder.new {
-    #   use OmniAuth::Test::PhonySession
-    #   use MyLdapProvider, :name => 'expressov3', :title => 'MyExpressoV3 Form'}
-    #   run lambda { |env| [404, {'Content-Type' => 'text/plain'}, [env.key?('omniauth.auth').to_s]] }
-    # }.to_app
+    Rack::Builder.new {
+      use OmniAuth::Test::PhonySession
+      use ExpressoV3Provider, :name => 'expressov3', :title => 'MyExpressoV3 Form'
+      run lambda { |env| [404, {'Content-Type' => 'text/plain'}, [env.key?('omniauth.auth').to_s]] }
+    }.to_app
   end
 
   let(:session) do
@@ -19,25 +19,25 @@ describe "OmniAuth::Strategies::ExpressoV3" do
     expect(OmniAuth::Utils.camelize('expressov3')).to eq('ExpressoV3')
   end
   #
-  # describe '/auth/ldap' do
-  #   before(:each){ get '/auth/ldap' }
+  describe '/auth/expressov3' do
+    before(:each){ get '/auth/expressov3' }
+
+    it 'should display a form' do
+      last_response.status.should == 200
+      last_response.body.should be_include("<form")
+    end
   #
-  #   it 'should display a form' do
-  #     last_response.status.should == 200
-  #     last_response.body.should be_include("<form")
-  #   end
+    it 'should have the callback as the action for the form' do
+      last_response.body.should be_include("action='/auth/expressov3/callback'")
+    end
   #
-  #   it 'should have the callback as the action for the form' do
-  #     last_response.body.should be_include("action='/auth/ldap/callback'")
-  #   end
-  #
-  #   it 'should have a text field for each of the fields' do
-  #     last_response.body.scan('<input').size.should == 2
-  #   end
-  #   it 'should have a label of the form title' do
-  #     last_response.body.scan('MyLdap Form').size.should > 1
-  #   end
-  # end
+    it 'should have a text field for each of the fields' do
+      last_response.body.scan('<input').size.should == 2
+    end
+    it 'should have a label of the form title' do
+      last_response.body.scan('MyExpressoV3 Form').size.should > 1
+    end
+  end
   #
   # describe 'post /auth/ldap/callback' do
   #   before(:each) do
