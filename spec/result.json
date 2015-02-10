@@ -1,0 +1,712 @@
+{
+    "result": {
+        "Tinebase": {
+            "modSsl": false,
+            "redirectUrlmodSsl": "",
+            "serviceMap": {
+                "transport": "POST",
+                "envelope": "JSON-RPC-2.0",
+                "contentType": "application/json",
+                "SMDVersion": "2.0",
+                "target": "index.php",
+                "services": {
+                    "Tinebase.ping": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "null"
+                    },
+                    "Tinebase.getCountryList": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.getAvailableTranslations": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.setLocale": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "localeString",
+                                "optional": false
+                            },
+                            {
+                                "type": "boolean",
+                                "name": "saveaspreference",
+                                "optional": false
+                            },
+                            {
+                                "type": "boolean",
+                                "name": "setcookie",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.setTimezone": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "timezoneString",
+                                "optional": false
+                            },
+                            {
+                                "type": "boolean",
+                                "name": "saveaspreference",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "string"
+                    },
+                    "Tinebase.getUsers": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "sort",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "dir",
+                                "optional": false
+                            },
+                            {
+                                "type": "integer",
+                                "name": "start",
+                                "optional": false
+                            },
+                            {
+                                "type": "integer",
+                                "name": "limit",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.searchRoles": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "paging",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.changePassword": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "oldPassword",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "newPassword",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.clearState": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "name",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.loadState": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.setState": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "name",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "value",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.saveTag": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "tag",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.updateMultipleRecords": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "appName",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "modelName",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "changes",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.searchTags": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "paging",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.searchTagsByForeignFilter": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filterData",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "filterName",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.attachTagToMultipleRecords": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filterData",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "filterName",
+                                "optional": false
+                            },
+                            {
+                                "type": "any",
+                                "name": "tag",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.detachTagsFromMultipleRecords": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filterData",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "filterName",
+                                "optional": false
+                            },
+                            {
+                                "type": "any",
+                                "name": "tag",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.searchNotes": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "paging",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.getNoteTypes": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "null"
+                    },
+                    "Tinebase.deleteTags": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "ids",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.authenticate": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "username",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "password",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.login": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "username",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "password",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "securitycode",
+                                "optional": true
+                            }
+                        ],
+                        "returns": [
+                            "array",
+                            "array"
+                        ]
+                    },
+                    "Tinebase.updateCredentialCache": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "password",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.logout": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.getRegistryData": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "any"
+                    },
+                    "Tinebase.getAllRegistryData": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "any"
+                    },
+                    "Tinebase.searchCustomFieldValues": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "paging",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.searchPreferencesForApplication": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "applicationName",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.savePreferences": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "data",
+                                "optional": false
+                            },
+                            {
+                                "type": "boolean",
+                                "name": "adminMode",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.getUserProfile": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "userId",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.updateUserProfile": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "profileData",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.void": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "null"
+                    },
+                    "Tinebase.getUserProfileConfig": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "object"
+                    },
+                    "Tinebase.setUserProfileConfig": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "configData",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.searchDepartments": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "filter",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "paging",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.getConfig": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "id",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.saveConfig": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "recordData",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.joinTempFiles": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "tempFilesData",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.changeExpiredPassword": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "userName",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "oldPassword",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "newPassword",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "array"
+                    },
+                    "Tinebase.getRelatableModels": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.getModelsConfiguration": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    },
+                    "Tinebase.getDefaultModel": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "object"
+                    },
+                    "Tinebase.resolveContainerTagsUsers": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "object",
+                                "name": "_records",
+                                "optional": false
+                            },
+                            {
+                                "type": "array",
+                                "name": "_resolveProperties",
+                                "optional": true,
+                                "default": [
+                                    "container_id",
+                                    "tags"
+                                ]
+                            }
+                        ],
+                        "returns": [
+                            "null",
+                            "null"
+                        ]
+                    },
+                    "Tinebase.addFilterModelPlugin": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "formerFilter",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "plugin",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.attachPlugin": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "string",
+                                "name": "method",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "namespace",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.attachPlugins": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [
+                            {
+                                "type": "array",
+                                "name": "methods",
+                                "optional": false
+                            },
+                            {
+                                "type": "string",
+                                "name": "namespace",
+                                "optional": false
+                            }
+                        ],
+                        "returns": "null"
+                    },
+                    "Tinebase.getPlugins": {
+                        "envelope": "JSON-RPC-2.0",
+                        "transport": "POST",
+                        "parameters": [],
+                        "returns": "array"
+                    }
+                }
+            },
+            "timeZone": "UTC",
+            "locale": {
+                "locale": "en",
+                "language": "English",
+                "region": false
+            },
+            "version": {
+                "buildType": "RELEASE",
+                "codeName": "ExpressoV3 Kristina",
+                "packageString": "kristina.20141010.13",
+                "releaseTime": "2015-01-23 17:06:47-02:00",
+                "filesHash": "4d16d6c30a6096a4837902fd7544c1becd119cac"
+            },
+            "defaultUsername": "",
+            "defaultPassword": "",
+            "denySurveys": true,
+            "titlePostfix": null,
+            "redirectUrl": null,
+            "helpUrl": "http://comunidadeexpresso.serpro.gov.br/expressov3/tutorial/html/index.html",
+            "weburl": null,
+            "applauncher": {
+                "domain": "serpro",
+                "applications": {
+                    "listadmin": "https://aplicacoesexpresso.serpro.gov.br/"
+                }
+            },
+            "bugreportUrl": "https://expressov3.serpro.gov.br/bugreport/bugreport.php",
+            "maxFileUploadSize": 52428800,
+            "maxPostSize": 52428800,
+            "thousandSeparator": ",",
+            "decimalSeparator": ".",
+            "helpdoc": {
+                "text": "Ajuda e documentação?",
+                "title": "Documentação online da Comunidade",
+                "url": "http://comunidadeexpresso.serpro.gov.br/expressov3/tutorial/html/index.html"
+            },
+            "maxMessageSize": 52428800,
+            "stateProvider": "localStorage"
+        }
+    },
+    "id": "2",
+    "jsonrpc": "2.0"
+}
