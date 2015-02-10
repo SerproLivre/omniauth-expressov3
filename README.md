@@ -1,6 +1,6 @@
 # OmniAuth Twitter
 
-[![Gem Version](https://badge.fury.io/rb/omniauth-twitter.svg)](http://badge.fury.io/rb/omniauth-twitter)
+[![Gem Version](https://badge.fury.io/rb/omniauth-expressov3.svg)](http://badge.fury.io/rb/omniauth-expressov3)
 [![Circle CI](https://circleci.com/gh/abner/omniauth-expressov3/tree/master.svg?style=svg)](https://circleci.com/gh/abner/omniauth-expressov3/tree/master)
 [![Code Climate](https://codeclimate.com/github/abner/omniauth-expressov3.png)](https://codeclimate.com/github/abner/omniauth-expressov3)
 [![Code Climate Coverage](https://codeclimate.com/github/abner/omniauth-expressov3/coverage.png)](https://codeclimate.com/github/abner/omniauth-expressov3)
