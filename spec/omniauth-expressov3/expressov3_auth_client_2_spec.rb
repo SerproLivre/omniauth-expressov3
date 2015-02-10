@@ -11,7 +11,7 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
 
       expect(data['currentAccount']).not_to be(nil)
       expect(data['userContact']).not_to be(nil)
-
+      auth.close
     end
   end
 end

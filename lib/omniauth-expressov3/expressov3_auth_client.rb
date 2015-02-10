@@ -49,6 +49,10 @@ module OmniAuth
       def last_raw_data
         @json_tine.last_body
       end
+
+      def close
+        @json_tine.close if @json_tine
+      end
   protected
 
       def validate_arguments(username, password)
