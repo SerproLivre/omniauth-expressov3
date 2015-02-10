@@ -19,6 +19,7 @@ module OmniAuth
         @host = @uri.host
         @port = @uri.port
         @debug = debug
+        @http = nil
       end
 
       def send(method, method_id, args=nil)
@@ -27,15 +28,25 @@ module OmniAuth
         json_body.merge!({:params => args}) unless args.nil?
         @req.body = uri_escape_sanely( json_body.to_json )
         add_request_fields #headers e cookies
-        http = Net::HTTP.new(@uri.host, @uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        response = http.start {|http| http.request(@req) }
+        unless @http
+          @http = Net::HTTP.new(@uri.host, @uri.port)
+          @http.use_ssl = true
+          @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+        response = @http.start {|http| @http.request(@req) }
         puts "Response #{response.code} #{response.message}: #{response.body}" if @debug
         @json_return = JSON.parse(response.body)
         unless @tine_key && @json_key
-        @json_key = @json_return['result']['jsonKey'] if @json_return['result']
-        @tine_key = response.get_fields('Set-Cookie').to_s.split(';')[0].split('=')[1]
+          @json_key = @json_return['result']['jsonKey'] if @json_return['result']
+
+          puts "COOKIES: #{response.get_fields('Set-Cookie')}" if @debug
+          @tine_key = response.get_fields('Set-Cookie').to_s.split(';')[0].split('=')[1]
+
+          all_cookies = response.get_fields('set-cookie')
+          cookies_array = Array.new
+          all_cookies.each { | cookie | cookies_array.push(cookie.split('; ')[0]) }
+          @cookies = cookies_array.join('; ')
+
         end
         puts "TINE_KEY: "+@tine_key if @tine_key and @debug
         puts "JSON_KEY: "+@json_key if @json_key and @debug
@@ -78,7 +89,8 @@ module OmniAuth
         #
         #header e cookie enviados pelo usuario logado
         @req.add_field 'X-Tine20-JsonKey', @json_key if @json_key
-        @req.add_field 'Cookie', 'TINE20SESSID='+@tine_key if @tine_key
+        #@req.add_field 'Cookie', 'TINE20SESSID='+@tine_key if @tine_key
+        @req.add_field 'Cookie', @cookies if @cookies
       end
 
       def uri_escape_sanely(str)
