@@ -191,7 +191,7 @@ OmniAuth ExpressoV3 is tested under 1.9.3, 2.0.0, 2.1.0, JRuby, and Rubinius.
 
 Please read the [contribution guidelines](CONTRIBUTING.md) for some information on how to get started. No contribution is too small.
 
-## License
+## License 
 
 Copyright (c) 2015 by Ábner Oliveira
 
