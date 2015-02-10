@@ -14,17 +14,31 @@ module OmniAuth
       @json_key = nil
       @tine_key = nil
       @debug = false
+
+
       def initialize(uri, debug = false)
         @uri = URI.parse(uri)
         @host = @uri.host
         @port = @uri.port
         @debug = debug
         @http = nil
+        @random = Random.new(Time.new.to_i)
+        @cont = 0
+        @last_body = nil
       end
 
-      def send(method, method_id, args=nil)
+      def next_cont
+        @cont += 1
+        @cont
+      end
+
+      def next_random
+        (@random.rand * 1000000).to_i
+      end
+
+      def send(method, args=nil)
         @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
-        json_body = {:jsonrpc => '2.0', :method => method, :id => method_id}
+        json_body = {:jsonrpc => '2.0', :method => method, :id => next_cont}
         json_body.merge!({:params => args}) unless args.nil?
         @req.body = uri_escape_sanely( json_body.to_json )
         add_request_fields #headers e cookies
@@ -50,6 +64,7 @@ module OmniAuth
         end
         puts "TINE_KEY: "+@tine_key if @tine_key and @debug
         puts "JSON_KEY: "+@json_key if @json_key and @debug
+        @last_body = response.body
         return response, response.body
       end
 
@@ -57,8 +72,16 @@ module OmniAuth
         @json_return
       end
 
+      def last_body
+        @last_body
+      end
+
       def result
-        keys.merge(@json_return['result'])
+        if @json_return['result']
+          keys.merge(@json_return['result'])
+        else
+          keys.merge(@json_return)
+        end
       end
 
       def keys

@@ -43,18 +43,25 @@ module OmniAuth
       end
 
       def callback_phase
-        @auth_client = OmniAuth::Expressov3::AuthClient.new @options, true
+        @auth_client = OmniAuth::ExpressoV3::AuthClient.new @options, true
 
         return fail!(:missing_credentials) if missing_credentials?
         begin
-          @expresso_user_info = @auth_client.authenticate(request['username'], request['password'])
-          return fail!(:invalid_credentials) if !@user_info
+          @auth_info = @auth_client.authenticate(request['username'], request['password'])
+          return fail!(:invalid_credentials) if !@auth_info
 
-          @user_info = self.class.map_user(@@config, @expresso_user_info)
+          @expresso_user_info = @auth_client.get_user_data
+
+          @user_info = map_user_data(@expresso_user_info)
+
           super
         rescue Exception => e
           return fail!(:expressov3_error, e)
         end
+      end
+
+      def map_user_data(expresso_user_info)
+        self.class.map_user(@@config, expresso_user_info)
       end
 
       uid {
@@ -75,7 +82,12 @@ module OmniAuth
             values_keys = value.split('::')
             value_key = values_keys[0]
             sub_value_key = values_keys[1]
-            user[key] = object[value_key][sub_value_key] if object.respond_to?(value_key) and object[value_key].respond_to(sub_value_key)
+            if object && object.respond_to?(value_key) && object[value_key] && object[value_key].respond_to(sub_value_key)
+              user[key] = object[value_key][sub_value_key]
+            else
+              user[key] = nil
+            end
+
           when Array
             value.each {|v| (user[key] = object[v.downcase.to_sym].first; break;) if object.respond_to? v.downcase.to_sym}
           when Hash
