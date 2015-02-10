@@ -7,17 +7,17 @@ module OmniAuth
       include OmniAuth::Strategy
 
       @@config = {
-       'account_id' => 'currentAccount::accountId',
-       'contact_id' =>  'userContact::id',
-       'username' => 'currentAccount::accountLoginName',
-       'name' => 'currentAccount::accountFullName',
-       'first_name' => 'currentAccount::accountFirstName',
-       'last_name' => 'currentAccount::accountLastName',
-       'email' => 'currentAccount::accountEmailAddress',
-       'telephone' => 'userContact::tel_work',
-       'organization_unit' => 'userContact::org_unit',
-       'tine_key' => 'keys::tine_key',
-       'json_key' => 'keys::json_key'
+       :account_id => 'currentAccount::accountId',
+       :contact_id =>  'userContact::id',
+       :username => 'currentAccount::accountLoginName',
+       :name => 'currentAccount::accountFullName',
+       :first_name => 'currentAccount::accountFirstName',
+       :last_name => 'currentAccount::accountLastName',
+       :email => 'currentAccount::accountEmailAddress',
+       :telephone => 'userContact::tel_work',
+       :organization_unit => 'userContact::org_unit',
+       :tine_key => 'keys::tine_key',
+       :json_key => 'keys::json_key'
       }
 
       option :title, "Autenticação Expresso V3" #default title for authentication form
