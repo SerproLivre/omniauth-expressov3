@@ -10,4 +10,6 @@ require 'omniauth-expressov3'
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.extend  OmniAuth::Test::StrategyMacros, :type => :strategy
+
+  OmniAuth.config.logger = Logger.new(File.expand_path('../omniauth.log', __FILE__))
 end

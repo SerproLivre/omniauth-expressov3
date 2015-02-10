@@ -138,31 +138,24 @@ describe "OmniAuth::Strategies::ExpressoV3" do
 
       it 'should not redirect to error page' do
         post('/auth/expressov3/callback', {:username => 'ping', :password => 'password'})
-        puts last_response.headers['Location']
-        last_response.should_not be_redirect
+        expect(last_response).not_to be_redirect
       end
 
       it 'should map user info to Auth Hash' do
         @auth.stub(:get_user_data).and_return(hash_result)
         post('/auth/expressov3/callback', {:username => 'ping', :password => 'password'})
-        #puts auth_hash
-        #expect(auth_hash.account_id).to eq('11111111111')
-        #expect(auth_hash['email']).to_be eq('joao.ninguem@serpro.gov.br')
-        #expect(auth_hash['account_id']).to_be eq('11111111111')
-        #expect(auth_hash['account_id']).to_be eq('11111111111')
-        #expect(auth_hash['account_id']).to_be eq('11111111111')
-        #auth_hash.uid.should == 'cn=ping, dc=intridea, dc=com'
-        #auth_hash.info.email.should == 'ping@intridea.com'
-        #auth_hash.info.first_name.should == 'Ping'
-        #auth_hash.info.last_name.should == 'Yu'
-        #auth_hash.info.phone.should == '555-555-5555'
-        #auth_hash.info.mobile.should == '444-444-4444'
-        #auth_hash.info.nickname.should == 'ping'
-        #auth_hash.info.title.should == 'dev'
-        #auth_hash.info.location.should == 'k street, Washington, DC, U.S.A 20001'
-        #auth_hash.info.url.should == 'www.intridea.com'
-        #auth_hash.info.image.should == 'http://www.intridea.com/ping.jpg'
-        #auth_hash.info.description.should == 'omniauth-ldap'
+        expect(auth_hash.provider).to eq('expressov3')
+        expect(auth_hash.info.account_id).to eq('111111111')
+        expect(auth_hash.info.username).to eq('11111111111')
+        expect(auth_hash.info.email).to eq('joao.ninguem@serpro.gov.br')
+        expect(auth_hash.info.first_name).to eq('Joao')
+        expect(auth_hash.info.last_name).to eq('Ninguem')
+        expect(auth_hash.info.name).to eq('Joao Ninguem')
+        expect(auth_hash.info.telephone).to eq('(71)1111-1111')
+        expect(auth_hash.info.organization_unit).to eq('SUPDE/DESDR/DE5CT')
+        expect(auth_hash.info.tine_key).to eq('tine_key')
+        expect(auth_hash.info.json_key).to eq('json_key')
+        expect(auth_hash.info.contact_id).to eq('contact_id')
       end
     end
   end
