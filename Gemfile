@@ -9,3 +9,5 @@ group :development, :test do
     gem 'growl'
     gem 'rb-fsevent'
 end
+
+gem "codeclimate-test-reporter", group: :test, require: nil
