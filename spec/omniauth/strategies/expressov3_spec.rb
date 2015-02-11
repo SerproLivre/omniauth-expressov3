@@ -116,6 +116,22 @@ describe "OmniAuth::Strategies::ExpressoV3" do
     end
   end
 
+  context 'success touching service' do
+
+    before(:each) do
+      OmniAuth::ExpressoV3::AuthClient.unstub(:new)
+    end
+    let(:auth_hash){ last_request.env['omniauth.auth'] }
+
+    it 'should authenticate on expresso v3' do
+      post('/auth/expressov3/callback', {:username => ENV['EXPRESSO_USERNAME'], :password => ENV['EXPRESSO_PASSWORD']})
+      expect(auth_hash.provider).to eq('expressov3')
+      expect(auth_hash.info.account_id).to eq('801294985')
+      expect(auth_hash.info.username).to eq('80129498572')
+      expect(auth_hash.info.email).to eq('abner.oliveira@serpro.gov.br')
+    end
+  end
+
     #
     context 'success' do
       let(:auth_hash){ last_request.env['omniauth.auth'] }

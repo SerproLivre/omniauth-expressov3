@@ -36,35 +36,18 @@ module OmniAuth
         (@random.rand * 1000000).to_i
       end
 
-      def send(method, args=nil)
-        @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
-        json_body = {:jsonrpc => '2.0', :method => method, :id => next_cont}
-        json_body.merge!({:params => args}) unless args.nil?
-        @req.body = uri_escape_sanely( json_body.to_json )
-        add_request_fields #headers e cookies
-        unless @http
-          @http = Net::HTTP.new(@uri.host, @uri.port)
-          @http.use_ssl = true
-          @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        end
-        response = @http.start {|http| @http.request(@req) }
-        puts "Response #{response.code} #{response.message}: #{response.body}" if @debug
-        @json_return = JSON.parse(response.body)
-        unless @tine_key && @json_key
-          @json_key = @json_return['result']['jsonKey'] if @json_return['result']
+      def send(tine_method, args=nil)
 
-          puts "COOKIES: #{response.get_fields('Set-Cookie')}" if @debug
-          @tine_key = response.get_fields('Set-Cookie').to_s.split(';')[0].split('=')[1]
-
-          all_cookies = response.get_fields('set-cookie')
-          cookies_array = Array.new
-          all_cookies.each { | cookie | cookies_array.push(cookie.split('; ')[0]) }
-          @cookies = cookies_array.join('; ')
-
-        end
-        puts "TINE_KEY: "+@tine_key if @tine_key and @debug
-        puts "JSON_KEY: "+@json_key if @json_key and @debug
+        response = execute_http_call(tine_method, args)
+        hash_response = parse_response(response)
+        @json_return = hash_response[:json_object]
+        @cookies = hash_response[:cookies]
+        @tine_key = hash_response[:tine_key]
+        @json_key = hash_response[:json_key]
         @last_body = response.body
+
+        output_debug_response_and_vars(response)
+
         return response, response.body
       end
 
@@ -99,7 +82,55 @@ module OmniAuth
         @tine_key = nil
       end
 
-    protected
+private
+  def execute_http_call(tine_method, args=nil)
+    @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
+    json_body = {:jsonrpc => '2.0', :method => tine_method, :id => next_cont}
+    json_body.merge!({:params => args}) unless args.nil?
+    @req.body = uri_escape_sanely( json_body.to_json )
+    add_request_fields #headers e cookies
+    unless @http
+      @http = Net::HTTP.new(@uri.host, @uri.port)
+      @http.use_ssl = true
+      @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
+    return @http.start {|http| @http.request(@req) }
+  end
+
+  def parse_response response
+    json = JSON.parse(response.body)
+
+    json_key = json['result']['jsonKey'] if json['result']
+
+    cookies = nil, tine_key = nil
+
+    if response.get_fields('Set-Cookie')
+      tine_key = response.get_fields('Set-Cookie').to_s.split(';')[0].split('=')[1]
+      all_cookies = response.get_fields('set-cookie')
+      cookies_array = Array.new
+      all_cookies.each { | cookie | cookies_array.push(cookie.split('; ')[0]) }
+      cookies = cookies_array.join('; ')
+    end
+
+    return {
+        :json_object => json,
+        :tine_key => (tine_key || @tine_key) ,
+        :json_key => json_key,
+        :cookies => (cookies || @cookies)
+        }
+  end
+
+  def output_debug_response_and_vars(response)
+    if @debug
+      puts "Response #{response.code} #{response.message}: #{response.body}"
+      puts "TINE_KEY: "+@tine_key if @tine_key
+      puts "JSON_KEY: "+@json_key if @json_key
+      puts "COOKIES: #{@cookies}" if @cookies
+    end
+  end
+
+
+protected
       def add_request_fields
         #headers sempre enviados
         @req.add_field 'User-Agent', 'Ruby JSON-RPC Client 2.0'

@@ -8,11 +8,12 @@ module OmniAuth
 
       SERVICE_URL =  "https://expressov3.serpro.gov.br/index.php"
 
-    #  VALID_ADAPTER_CONFIGURATION_KEYS = [:service_url]
+       VALID_ADAPTER_CONFIGURATION_KEYS = [:service_url]
 
       def initialize(options={})
         service_url = options['service_url'] || SERVICE_URL
         @json_tine = JSONRPCTineConnection.new service_url, options['debug']
+        @debug = options['debug']
       end
 
       def send(method_name, args={})

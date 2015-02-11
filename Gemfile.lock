@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    omniauth-expressov3 (1.0)
+    omniauth-expressov3 (1.0.2)
       omniauth (~> 1.0)
 
 GEM

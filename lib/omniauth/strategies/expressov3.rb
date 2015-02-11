@@ -47,6 +47,7 @@ module OmniAuth
         return fail!(:missing_credentials) if missing_credentials?
         begin
           @auth_info = @auth_client.authenticate(request['username'], request['password'])
+
           return fail!(:invalid_credentials) if !@auth_info
 
           @expresso_user_info = @auth_client.get_user_data
@@ -76,32 +77,14 @@ module OmniAuth
       def self.map_user(mapper, object)
         user = {}
         mapper.each do |key, value|
-          case value
-          when String
-            values_keys = value.split('::')
-            value_key = values_keys[0]
-            sub_value_key = values_keys[1]
-            #puts "KEY: #{value_key}"
-            #puts "SUBKEY: #{sub_value_key}"
-            if object && object.has_key?(value_key) && object[value_key] && object[value_key].has_key?(sub_value_key)
-              user[key] = object[value_key][sub_value_key]
-            #  puts "HERE: #{key} => #{object[value_key][sub_value_key]}"
-            else
-              user[key] = nil
-            end
-          #  puts '--------------------------------------------------'
+          values_keys = value.split('::')
+          value_key = values_keys[0]
+          sub_value_key = values_keys[1]
 
-          when Array
-            value.each {|v| (user[key] = object[v.downcase.to_sym].first; break;) if object.respond_to? v.downcase.to_sym}
-          when Hash
-            value.map do |key1, value1|
-              pattern = key1.dup
-              value1.each_with_index do |v,i|
-                part = ''; v.collect(&:downcase).collect(&:to_sym).each {|v1| (part = object[v1].first; break;) if object.respond_to? v1}
-                pattern.gsub!("%#{i}",part||'')
-              end
-              user[key] = pattern
-            end
+          if object && object.has_key?(value_key) && object[value_key] && object[value_key].has_key?(sub_value_key)
+            user[key] = object[value_key][sub_value_key]
+          else
+            user[key] = nil
           end
         end
         user
