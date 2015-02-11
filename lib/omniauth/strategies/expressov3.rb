@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'multi_json'
+require 'omniauth'
 
 module OmniAuth
   module Strategies
