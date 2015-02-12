@@ -37,7 +37,7 @@ module OmniAuth
       end
 
       def send(tine_method, args=nil)
-
+        puts "STARTING METHOD: #{tine_method} - WITH PARAMS: #{args.inspect}" if @debug
         response = execute_http_call(tine_method, args)
         hash_response = parse_response(response)
         @json_return = hash_response[:json_object]
@@ -87,6 +87,9 @@ private
     @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
     json_body = {:jsonrpc => '2.0', :method => tine_method, :id => next_cont}
     json_body.merge!({:params => args}) unless args.nil?
+
+    #puts "REQUEST BODY: #{json_body.to_json}" if @debug
+
     @req.body = uri_escape_sanely( json_body.to_json )
     add_request_fields #headers e cookies
     unless @http
@@ -98,11 +101,16 @@ private
   end
 
   def parse_response response
-    json = JSON.parse(response.body)
+    # puts "BODY: #{response.body}" if @debug
+    json_obj = JSON.parse(response.body)
+    # puts json_obj.inspect if @debug
 
-    json_key = json['result']['jsonKey'] if json['result']
 
-    cookies = nil, tine_key = nil
+    if json_obj['result'] and json_obj['result'].is_a? Hash
+      json_key = json_obj['result']['jsonKey']  if  json_obj['result']['jsonKey']
+    end
+
+    cookies =  tine_key = nil
 
     if response.get_fields('Set-Cookie')
       tine_key = response.get_fields('Set-Cookie').to_s.split(';')[0].split('=')[1]
@@ -113,16 +121,16 @@ private
     end
 
     return {
-        :json_object => json,
+        :json_object => json_obj,
         :tine_key => (tine_key || @tine_key) ,
-        :json_key => json_key,
-        :cookies => (cookies || @cookies)
+        :json_key => json_key || @json_key,
+        :cookies => (cookies  || @cookies)
         }
   end
 
   def output_debug_response_and_vars(response)
     if @debug
-      puts "Response #{response.code} #{response.message}: #{response.body}"
+      #puts "Response #{response.code} #{response.message}: #{response.body}"
       puts "TINE_KEY: "+@tine_key if @tine_key
       puts "JSON_KEY: "+@json_key if @json_key
       puts "COOKIES: #{@cookies}" if @cookies

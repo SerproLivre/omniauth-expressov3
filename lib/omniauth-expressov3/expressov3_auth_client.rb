@@ -12,8 +12,8 @@ module OmniAuth
 
       def initialize(options={})
         service_url = options['service_url'] || SERVICE_URL
-        @json_tine = JSONRPCTineConnection.new service_url, options['debug']
-        @debug = options['debug']
+        @debug = options['debug'] || options[:debug]
+        @json_tine = JSONRPCTineConnection.new service_url, @debug
       end
 
       def send(method_name, args={})
@@ -35,6 +35,7 @@ module OmniAuth
 
       def send method, args=nil
           @json_tine.send method, args
+          @json_tine.result
       end
 
       def get_user_data
@@ -43,7 +44,8 @@ module OmniAuth
         #hash with user data
         { 'keys' => @json_tine.result['keys'],
           'currentAccount' => @json_tine.result['Tinebase']['currentAccount'],
-          'userContact'    => @json_tine.result['Tinebase']['userContact']
+          'userContact'    => @json_tine.result['Tinebase']['userContact'],
+          'expressoAccount'    => @json_tine.result['Expressomail']['accounts']['results'][0]
         }
       end
 
