@@ -65,6 +65,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    recursive-open-struct (0.5.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
@@ -100,5 +101,6 @@ DEPENDENCIES
   rack-test (~> 0.5)
   rake (~> 0.8)
   rb-fsevent
+  recursive-open-struct
   rspec (~> 2.7)
   simplecov (~> 0.4)

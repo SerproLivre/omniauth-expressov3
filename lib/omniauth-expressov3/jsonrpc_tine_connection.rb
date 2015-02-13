@@ -1,6 +1,8 @@
 require 'net/http'
 require 'rubygems'
 require 'json'
+require 'ostruct'
+require 'forwardable'
 module OmniAuth
   module ExpressoV3
     #classe para fazer a conexão com o expresso3/tine20
@@ -37,7 +39,6 @@ module OmniAuth
       end
 
       def send(tine_method, args=nil)
-        puts "STARTING METHOD: #{tine_method} - WITH PARAMS: #{args.inspect}" if @debug
         response = execute_http_call(tine_method, args)
         hash_response = parse_response(response)
         @json_return = hash_response[:json_object]
@@ -58,6 +59,7 @@ module OmniAuth
       def last_body
         @last_body
       end
+
 
       def result
         if @json_return['result']
@@ -83,6 +85,7 @@ module OmniAuth
       end
 
 private
+
   def execute_http_call(tine_method, args=nil)
     @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
     json_body = {:jsonrpc => '2.0', :method => tine_method, :id => next_cont}
@@ -90,21 +93,19 @@ private
 
     #puts "REQUEST BODY: #{json_body.to_json}" if @debug
 
-    @req.body = uri_escape_sanely( json_body.to_json )
+    @req.body = json_body.to_json #uri_escape_sanely( json_body.to_json )
     add_request_fields #headers e cookies
     unless @http
       @http = Net::HTTP.new(@uri.host, @uri.port)
       @http.use_ssl = true
       @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
+    @http.set_debug_output($stdout) if @debug
     return @http.start {|http| @http.request(@req) }
   end
 
   def parse_response response
-    # puts "BODY: #{response.body}" if @debug
     json_obj = JSON.parse(response.body)
-    # puts json_obj.inspect if @debug
-
 
     if json_obj['result'] and json_obj['result'].is_a? Hash
       json_key = json_obj['result']['jsonKey']  if  json_obj['result']['jsonKey']
@@ -130,6 +131,7 @@ private
 
   def output_debug_response_and_vars(response)
     if @debug
+      puts response.body
       #puts "Response #{response.code} #{response.message}: #{response.body}"
       puts "TINE_KEY: "+@tine_key if @tine_key
       puts "JSON_KEY: "+@json_key if @json_key

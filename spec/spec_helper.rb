@@ -19,7 +19,22 @@ RSpec.configure do |config|
   OmniAuth.config.logger = Logger.new(File.expand_path('../omniauth.log', __FILE__))
 end
 
+def muted?
+  @@mute
+end
+
+def mute!
+  @@mute = true
+end
+
+def unmute!
+  @@mute = false
+end
+
+@@mute = true
+
 def display_label label
+  return if muted?
   puts ''
   display_line
   if label
@@ -29,9 +44,13 @@ def display_label label
 end
 
 def display_line
-  puts '-' * HighLine::SystemExtensions.terminal_size[0]
+  puts '-' * HighLine::SystemExtensions.terminal_size[0] unless muted?
+end
+
+def p msg
+  puts msg unless muted?
 end
 
 def puts_object object
-  ap object
+  ap object unless muted?
 end

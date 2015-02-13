@@ -5,18 +5,20 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
     display_label 'TESTING EXPRESSO V3 AUTHCLIENT'
     ENV['EXPRESSO_USERNAME'] ||= ask('Expresso Username: ')
     ENV['EXPRESSO_PASSWORD'] ||= ask("Expresso password for #{ENV['EXPRESSO_USERNAME']}: ") { |q| q.echo = false }
+    #unmute!  - habilita os outputs de debug do test
   end
 
   describe 'authenticate' do
     it 'should authenticate' do
-      auth = OmniAuth::ExpressoV3::AuthClient.new
+      auth = OmniAuth::ExpressoV3::AuthClient.new :debug => false
       auth_data = auth.authenticate(ENV['EXPRESSO_USERNAME'], ENV['EXPRESSO_PASSWORD'])
       expect(auth_data).not_to be(nil)
-      expect(auth_data['keys']).not_to be(nil)
+
+      expect(auth_data.keys).not_to be(nil)
       data = auth.get_user_data
 
-      expect(data['currentAccount']).not_to be(nil)
-      expect(data['userContact']).not_to be(nil)
+      expect(data.currentAccount).not_to be(nil)
+      expect(data.userContact).not_to be(nil)
       auth.close
     end
   end
@@ -39,16 +41,16 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
         args = {
           filter:
             [
-              {field: "account_id", operator: "equals", value: @user_data["expressoAccount"]["id"]},
+              {field: "account_id", operator: "equals", value: @user_data.expressoAccount.id},
               {field: "globalname", operator: "equals", value: ""}
 
             ]
         }
         result = @auth.send("Expressomail.searchFolders", args)
         display_label "PRINTING FOLDERS"
-        result['results'].each do |folder|
-          puts "FOLDER: #{folder['id']} - #{folder['globalname']} (#{folder['cache_totalcount']}) emails (#{folder['cache_unreadcount']}) unread"
-          puts "FOLDER DATA: "
+        result.results.each do |folder|
+          p "FOLDER: #{folder.id} - #{folder.globalname} (#{folder.cache_totalcount}) emails (#{folder.cache_unreadcount}) unread"
+          p "FOLDER DATA: "
           puts_object folder
           display_line
         end
@@ -59,17 +61,17 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
           args = {
             filter:
               [
-                {field: "account_id", operator: "equals", value: @user_data["expressoAccount"]["id"]},
+                {field: "account_id", operator: "equals", value: @user_data.expressoAccount.id},
                 {field: "globalname", operator: "equals", value: ""}
 
               ]
           }
           result = @auth.send("Expressomail.searchFolders", args)
-          folder = result['results'].first
+          folder = result.results.first
         end
         it 'search Messages' do
-          inbox_id = inbox_folder['id']
-          account_id = @user_data["expressoAccount"]["id"]
+          inbox_id = inbox_folder.id
+          account_id = @user_data.expressoAccount.id
           args = {
             filter:
             [
@@ -86,24 +88,23 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
                         sort: "received", dir: "DESC", start: 0, limit: 5
                     }
           }
-          result = @auth.send("Expressomail.searchMessages", args)
+          response = @auth.send("Expressomail.searchMessages", args)
 
           display_label  "LISTING LAST 5 MESSAGES"
 
-          result['results'].each do |msg|
-            puts "SUBJECT: #{msg['subject']}"
-            puts "EMAIL DATA: "
+          response.results.each do |msg|
+            p "SUBJECT: #{msg.subject}"
+            p "EMAIL DATA: "
             puts_object msg
             display_line
           end
-                end
+        end
         it 'query for Expressomail.updateMessageCache' do
           args = {
-             folderId: inbox_folder['id'],
+             folderId: inbox_folder.id,
              time: 10
            }
           result = @auth.send("Expressomail.updateMessageCache", args)
-
           display_label "UPDATING MESSAGES CACHE"
           puts_object result
         end

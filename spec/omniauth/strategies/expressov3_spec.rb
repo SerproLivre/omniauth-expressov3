@@ -2,6 +2,12 @@ require 'spec_helper'
 require 'json'
 describe "OmniAuth::Strategies::ExpressoV3" do
 
+  before :all do
+    display_label 'TESTING EXPRESSO V3 AUTHCLIENT'
+    ENV['EXPRESSO_USERNAME'] ||= ask('Expresso Username: ')
+    ENV['EXPRESSO_PASSWORD'] ||= ask("Expresso password for #{ENV['EXPRESSO_USERNAME']}: ") { |q| q.echo = false }
+  end
+
   class ExpressoV3Provider < OmniAuth::Strategies::ExpressoV3; end
 
   let(:app) do

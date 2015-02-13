@@ -1,3 +1,4 @@
+require 'recursive-open-struct'
 module OmniAuth
   module ExpressoV3
     class AuthClient
@@ -30,23 +31,22 @@ module OmniAuth
         # check if user is authenticated,  raises an authentication if not
         validate_login(@json_tine.result)
         #return user data
-        @json_tine.result
+        build_struct @json_tine.result
       end
 
       def send method, args=nil
           @json_tine.send method, args
-          @json_tine.result
+          build_struct @json_tine.result
       end
 
       def get_user_data
         #request to get user data
         @json_tine.send 'Tinebase.getAllRegistryData'
-        #hash with user data
-        { 'keys' => @json_tine.result['keys'],
-          'currentAccount' => @json_tine.result['Tinebase']['currentAccount'],
-          'userContact'    => @json_tine.result['Tinebase']['userContact'],
-          'expressoAccount'    => @json_tine.result['Expressomail']['accounts']['results'][0]
-        }
+        # hash with user data
+        build_struct :keys => @json_tine.result['keys'],
+            :currentAccount => @json_tine.result['Tinebase']['currentAccount'],
+            :userContact    => @json_tine.result['Tinebase']['userContact'],
+            :expressoAccount    => @json_tine.result['Expressomail']['accounts']['results'][0]
       end
 
       def last_raw_data
@@ -57,7 +57,9 @@ module OmniAuth
         @json_tine.close if @json_tine
       end
   protected
-
+      def build_struct hash
+        RecursiveOpenStruct.new hash,  :recurse_over_arrays => true
+      end
       def validate_arguments(username, password)
         if username.nil? or password.nil?
           raise MissingArgumentsError.new('missing credentials arguments')
