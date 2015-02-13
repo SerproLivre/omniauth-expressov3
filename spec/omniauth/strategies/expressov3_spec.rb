@@ -146,7 +146,7 @@ describe "OmniAuth::Strategies::ExpressoV3" do
         json_path = File.expand_path(File.dirname(__FILE__) + '../../../result.json')
         File.open(json_path) do |f|
           json = f.read
-          return JSON.parse(json)
+          return RecursiveOpenStruct.new(JSON.parse(json),  :recurse_over_arrays => true)
         end
       }
 
