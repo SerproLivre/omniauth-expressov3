@@ -79,11 +79,10 @@ module OmniAuth
         user = {}
         mapper.each do |key, value|
           values_keys = value.split('::')
-          value_key = values_keys[0]
-          sub_value_key = values_keys[1]
-
-          if object && object.has_key?(value_key) && object[value_key] && object[value_key].has_key?(sub_value_key)
-            user[key] = object[value_key][sub_value_key]
+          value_key = values_keys[0].to_sym
+          sub_value_key = values_keys[1].to_sym
+          if object && object.respond_to?(value_key) && object.send(value_key) && object.send(value_key).respond_to?(sub_value_key)
+            user[key] = object.send(value_key).send(sub_value_key)
           else
             user[key] = nil
           end

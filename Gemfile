@@ -9,8 +9,10 @@ group :development, :test do
     gem 'growl'
     gem 'rb-fsevent'
     gem 'highline'
+    gem "codeclimate-test-reporter", group: :test, require: nil
     gem 'awesome_print'
+    gem 'debugger'
 end
 
-gem "codeclimate-test-reporter", group: :test, require: nil
+
 gem 'recursive-open-struct'

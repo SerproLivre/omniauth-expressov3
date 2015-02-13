@@ -115,7 +115,7 @@ describe "OmniAuth::Strategies::ExpressoV3" do
 
       it 'should redirect to error page' do
         post('/auth/expressov3/callback', {:username => "ping", :password => "password"})
-
+        #require 'debugger'; debugger
         expect(last_response).to be_redirect
         expect(last_response.headers['Location']).to match(%r{expressov3_error})
       end
