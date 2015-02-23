@@ -3,9 +3,9 @@ module OmniAuth
   module ExpressoV3
     class AuthClient
 
-      class MissingArgumentsError < StandardError; end
-      class AuthenticationError < StandardError; end
-      class ConnectionError < StandardError; end
+      class MissingArgumentsError < Exception; end
+      class AuthenticationError < Exception; end
+      class ConnectionError < Exception; end
 
       SERVICE_URL =  "https://expressov3.serpro.gov.br/index.php"
 
