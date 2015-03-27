@@ -1,6 +1,7 @@
 require "codeclimate-test-reporter"
 require  'highline/import'
 require  'awesome_print'
+
 CodeClimate::TestReporter.start
 
 $:.unshift File.expand_path('..', __FILE__)

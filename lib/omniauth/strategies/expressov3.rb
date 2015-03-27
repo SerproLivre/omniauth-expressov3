@@ -18,7 +18,8 @@ module OmniAuth
        :telephone => 'userContact::tel_work',
        :organization_unit => 'userContact::org_unit',
        :tine_key => 'keys::tine_key',
-       :json_key => 'keys::json_key'
+       :json_key => 'keys::json_key',
+       :cookies => 'keys::cookies'
       }
 
       option :title, "Autenticação Expresso V3" #default title for authentication form

@@ -34,14 +34,15 @@ module OmniAuth
         build_struct @json_tine.result
       end
 
-      def send method, args=nil
+      def send method, args={}
           @json_tine.send method, args
           build_struct @json_tine.result
       end
 
-      def get_user_data
+      def get_user_data args={}
         #request to get user data
-        @json_tine.send 'Tinebase.getAllRegistryData'
+        @json_tine.send 'Tinebase.getAllRegistryData', args
+
         # hash with user data
         build_struct :keys => @json_tine.result['keys'],
             :currentAccount => @json_tine.result['Tinebase']['currentAccount'],

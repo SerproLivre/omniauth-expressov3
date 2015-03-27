@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe "OmniAuth::ExpressoV3::AuthClient" do
 
   before :all do
@@ -20,6 +21,25 @@ describe "OmniAuth::ExpressoV3::AuthClient" do
       expect(data.currentAccount).not_to be(nil)
       expect(data.userContact).not_to be(nil)
       auth.close
+    end
+  end
+
+  context 'reuse tine key, json key and cookies' do
+    let(:client) do
+      auth = OmniAuth::ExpressoV3::AuthClient.new :debug => false
+      auth
+    end
+
+    let(:auth_data) do
+      auth_data = client.authenticate(ENV['EXPRESSO_USERNAME'], ENV['EXPRESSO_PASSWORD'])
+    end
+
+    let(:new_client) { OmniAuth::ExpressoV3::AuthClient.new :debug => false }
+
+    describe 'new client' do
+      it 'should connect using auth data of a previous authentication' do
+        user_data = new_client.get_user_data(auth_data.keys.to_h)
+      end
     end
   end
 

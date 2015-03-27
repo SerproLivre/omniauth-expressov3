@@ -39,7 +39,12 @@ module OmniAuth
       end
 
       def send(tine_method, args=nil)
+        @json_key = args.delete(:json_key) if args.has_key? :json_key
+        @tine_key = args.delete(:tine_key) if args.has_key? :tine_key
+        @cookies = args.delete(:cookies) if args.has_key? :cookies
+
         response = execute_http_call(tine_method, args)
+
         hash_response = parse_response(response)
         @json_return = hash_response[:json_object]
         @cookies = hash_response[:cookies]
@@ -71,7 +76,11 @@ module OmniAuth
 
       def keys
         {
-          'keys' => {'tine_key' => @tine_key, 'json_key' => @json_key}
+          'keys' => {
+                    'tine_key' => @tine_key,
+                    'json_key' => @json_key,
+                    'cookies' => @cookies
+                    }
         }
       end
 
@@ -87,9 +96,14 @@ module OmniAuth
 private
 
   def execute_http_call(tine_method, args=nil)
+
     @req = Net::HTTP::Post.new(@uri.request_uri, initheader = {'Content-Type'=>'application/json'})
     json_body = {:jsonrpc => '2.0', :method => tine_method, :id => next_cont}
-    json_body.merge!({:params => args}) unless args.nil?
+
+    unless args.nil? or args.empty?
+      #raise tine_method unless 'Tinebase.login'.eql? tine_method
+      json_body.merge!({:params => args})
+    end
 
     #puts "REQUEST BODY: #{json_body.to_json}" if @debug
 
@@ -154,6 +168,7 @@ protected
         #header e cookie enviados pelo usuario logado
         @req.add_field 'X-Tine20-JsonKey', @json_key if @json_key
         #@req.add_field 'Cookie', 'TINE20SESSID='+@tine_key if @tine_key
+        #puts @cookies.inspect
         @req.add_field 'Cookie', @cookies if @cookies
       end
 
