@@ -7,7 +7,7 @@ module OmniAuth
       class AuthenticationError < Exception; end
       class ConnectionError < Exception; end
 
-      SERVICE_URL =  "https://expressov3.serpro.gov.br/index.php"
+      SERVICE_URL =  "https://expressobr.serpro.gov.br"
 
        VALID_ADAPTER_CONFIGURATION_KEYS = [:service_url]
 
