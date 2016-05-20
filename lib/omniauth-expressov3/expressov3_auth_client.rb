@@ -24,7 +24,7 @@ module OmniAuth
 
       def authenticate(username, password)
         validate_arguments(username, password)
-        auth_params = {"user" => username,"password" => password}
+        auth_params = {"username" => username,"password" => password}
 
         @json_tine.send 'Tinebase.login', auth_params
 
